@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>光伏发电功率智能预测系统</title>
+    <link rel="stylesheet" href="/static/style.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+<div class="app-container">
+    <header class="app-header">
+        <h1>☀️ 光伏发电功率智能预测系统</h1>
+        <p>基于深度学习 · 实时预测未来1小时发电功率</p>
+    </header>
+
+    <div class="control-panel">
+        <form method="get" class="model-form">
+            <label for="model">选择预测模型：</label>
+            <select name="model" id="model" onchange="this.form.submit()">
+                {% for m in available_models %}
+                <option value="{{ m }}" {% if m == selected_model %}selected{% endif %}>{{ m }}</option>
+                {% endfor %}
+            </select>
+        </form>
+        <div class="status-badge">{{ selected_model }} 模型 · 运行正常</div>
+    </div>
+
+    <main class="dashboard">
+        <!-- 当前状态 -->
+        <section class="card current-status">
+            <h2>当前电站状态</h2>
+            <div class="info-grid">
+                <div><span class="label">时间</span><span class="value">{{ current_time }}</span></div>
+                <div><span class="label">当前功率</span><span class="value">{{ current_power }} kW</span></div>
+                <div><span class="label">装机容量</span><span class="value">{{ capacity }} kW</span></div>
+                <div><span class="label">当前容量因子</span><span class="value">{{ "%.1f"|format(current_power / capacity * 100) }}%</span></div>
+            </div>
+        </section>
+
+        <!-- 预测结果 -->
+        <section class="card prediction-result">
+            <h2>⚡ 未来1小时预测</h2>
+            <div class="prediction-display">
+                <div class="power-number">{{ pred_power }}<small>kW</small></div>
+                <div class="capacity-factor">容量因子：<strong>{{ "%.1f"|format(pred_power / capacity * 100) }}%</strong></div>
+            </div>
+            <button onclick="location.reload()" class="refresh-btn">🔄 刷新预测</button>
+        </section>
+
+        <!-- 最近6小时数据 -->
+        <section class="card recent-data">
+            <h2>📊 最近6小时实测数据</h2>
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>时间</th>
+                        <th>功率 (kW)</th>
+                        <th>POA 辐照 (W/m²)</th>
+                        <th>组件温度 (°C)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for row in recent_data %}
+                    <tr>
+                        <td>{{ "%02d"|format(row.hour) }}:00</td>
+                        <td>{{ "%.2f"|format(row.power_kW) }}</td>
+                        <td>{{ "%.1f"|format(row.poa_Wm2) }}</td>
+                        <td>{{ "%.1f"|format(row.module_temp_C) }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </section>
+
+        <!-- 历史48小时曲线 -->
+        <section class="card chart-section">
+            <h2>📈 最近48小时发电功率趋势</h2>
+            <div class="chart-container">
+                <canvas id="powerChart"></canvas>
+            </div>
+        </section>
+    </main>
+
+    <footer class="app-footer">
+        © 2025 光伏智能预测系统 | 支持 LSTM / GRU / TCN / Transformer / CNN-LSTM 多模型对比
+    </footer>
+</div>
+
+<script>
+    // 渲染图表
+    const ctx = document.getElementById('powerChart').getContext('2d');
+    new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: {{ history_labels | tojson }},
+            datasets: [{
+                label: '发电功率 (kW)',
+                data: {{ history_values | tojson }},
+                borderColor: '#4ade80',
+                backgroundColor: 'rgba(74, 222, 128, 0.1)',
+                borderWidth: 2,
+                fill: true,
+                tension: 0.3,
+                pointRadius: 2,
+                pointHoverRadius: 5
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    labels: { color: '#e5e7eb', font: { size: 12 } }
+                },
+                tooltip: {
+                    mode: 'index',
+                    intersect: false,
+                    backgroundColor: 'rgba(30, 41, 59, 0.9)',
+                    titleColor: '#fbbf24',
+                    bodyColor: '#ffffff'
+                }
+            },
+            scales: {
+                x: {
+                    grid: { color: 'rgba(255,255,255,0.1)' },
+                    ticks: { color: '#d1d5db' }
+                },
+                y: {
+                    beginAtZero: true,
+                    grid: { color: 'rgba(255,255,255,0.1)' },
+                    ticks: { color: '#d1d5db' }
+                }
+            },
+            interaction: {
+                mode: 'nearest',
+                axis: 'x',
+                intersect: false
+            }
+        }
+    });
+</script>
+</body>
+</html>

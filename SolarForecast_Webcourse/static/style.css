@@ -1,0 +1,231 @@
+/* 使用系统默认中文字体，无需 SimHei.ttf */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --primary: #0ea5e9;
+    --success: #4ade80;
+    --warning: #fbbf24;
+    --card-bg: rgba(30, 41, 59, 0.7);
+    --text: #f9fafb;
+    --text-muted: #9ca3af;
+    --border: rgba(255, 255, 255, 0.15);
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB",
+                 "Microsoft YaHei", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    background: linear-gradient(135deg, #0c4a6e, #1e40af);
+    color: var(--text);
+    min-height: 100vh;
+    padding-bottom: 2rem;
+}
+
+.app-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1.5rem;
+}
+
+/* Header */
+.app-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+.app-header h1 {
+    font-size: 2.2rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    background: linear-gradient(to right, #60a5fa, #34d399);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+.app-header p {
+    color: var(--text-muted);
+    font-size: 1.1rem;
+}
+
+/* Control Panel */
+.control-panel {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    padding: 1rem;
+    background: rgba(15, 23, 42, 0.6);
+    border-radius: 12px;
+}
+.model-form {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+}
+.model-form label {
+    font-weight: 600;
+}
+.model-form select {
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: rgba(0, 0, 0, 0.3);
+    color: white;
+    font-size: 1rem;
+}
+.status-badge {
+    background: rgba(16, 185, 129, 0.2);
+    color: #6ee7b7;
+    padding: 0.4rem 1rem;
+    border-radius: 20px;
+    font-size: 0.95rem;
+    font-weight: 600;
+}
+
+/* Dashboard Grid */
+.dashboard {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.card {
+    background: var(--card-bg);
+    border-radius: 16px;
+    padding: 1.5rem;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--border);
+}
+.card h2 {
+    margin-bottom: 1.2rem;
+    font-size: 1.3rem;
+    color: #93c5fd;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+/* Current Status */
+.info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+.label {
+    display: block;
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    margin-bottom: 0.25rem;
+}
+.value {
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+/* Prediction Result */
+.prediction-display {
+    text-align: center;
+    margin: 1.5rem 0;
+}
+.power-number {
+    font-size: 4rem;
+    font-weight: 800;
+    background: linear-gradient(to right, #60a5fa, #34d399);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    line-height: 1;
+}
+.power-number small {
+    font-size: 1.2rem;
+    color: var(--text);
+    opacity: 0.9;
+}
+.capacity-factor {
+    font-size: 1.3rem;
+    margin-top: 0.5rem;
+    color: var(--warning);
+}
+.refresh-btn {
+    width: 100%;
+    padding: 0.8rem;
+    background: linear-gradient(to right, #3b82f6, #1d4ed8);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+.refresh-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
+}
+
+/* Data Table */
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 0.5rem;
+}
+.data-table th,
+.data-table td {
+    padding: 0.8rem 0.5rem;
+    text-align: center;
+    border-bottom: 1px solid var(--border);
+}
+.data-table th {
+    color: #93c5fd;
+    font-weight: 600;
+}
+.data-table tbody tr:nth-child(even) {
+    background: rgba(0, 0, 0, 0.15);
+}
+.data-table tbody tr:hover {
+    background: rgba(56, 189, 248, 0.1);
+}
+
+/* Chart */
+.chart-container {
+    height: 250px;
+    margin-top: 1rem;
+}
+
+/* Footer */
+.app-footer {
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .app-container {
+        padding: 1rem;
+    }
+    .app-header h1 {
+        font-size: 1.8rem;
+    }
+    .control-panel {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .info-grid {
+        grid-template-columns: 1fr;
+    }
+    .power-number {
+        font-size: 3rem;
+    }
+    .dashboard {
+        grid-template-columns: 1fr;
+    }
+}
