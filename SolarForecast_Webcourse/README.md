@@ -102,8 +102,9 @@
 
 ---
 
-### 八、📌 项目命名建议（英文）
+### 八、📌 项目参考框架
+https://github.com/tensorflow/tensorflow
+https://github.com/openclimatefix/open-source-quartz-solar-forecast
+https://github.com/openclimatefix/open-data-pvnet
+https://github.com/yuhao-nie/Stanford-solar-forecasting-dataset
 
-* ​**SolarForecast**​（推荐）
-* **PV-Predict**
-* ​**PVFormer**​（若突出 Transformer）
