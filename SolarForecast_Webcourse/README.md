@@ -102,7 +102,7 @@
 
 ---
 
-### 八、📌 项目参考框架
+### 八、📌 项目参考资料
 https://github.com/tensorflow/tensorflow
 
 https://github.com/openclimatefix/open-source-quartz-solar-forecast
